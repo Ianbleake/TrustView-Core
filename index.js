@@ -2,10 +2,7 @@ import express from "express";
 import "dotenv/config";
 import axios from "axios";
 import { supabase } from "./supabase.js";
-
 import helmet from "helmet";
-
-
 
 
 const app = express();
