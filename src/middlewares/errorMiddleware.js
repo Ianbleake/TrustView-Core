@@ -12,3 +12,4 @@ export function errorHandler(error, req, res, next) {
     error: error?.message || "Error interno",
   });
 }
+
