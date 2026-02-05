@@ -19,7 +19,7 @@ app.get("/", (_req, res) => {
   res.send("TrustView backend vivo");
 });
 
-app.use("/api/v1", routes)
+app.use(`/api/${process.env.API_VERSION}`, routes)
 
 app.use(errorHandler);
 

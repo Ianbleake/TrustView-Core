@@ -4,7 +4,7 @@ import { logger } from "../utils/logger.js";
 const router = Router();
 
 router.get("/health", (req, res) => {
-  const baseUrl = `${req.protocol}://${req.get("host")}/api/v1/`;
+  const baseUrl = `${req.protocol}://${req.get("host")}/api/${process.env.API_VERSION}/`;
 
   const healthPayload = {
     status: "ok",
