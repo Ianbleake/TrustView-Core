@@ -1,15 +1,23 @@
 import { createReviewService } from "../services/reviewsService.js";
 import { logger } from "../utils/logger.js";
+import { successResponse } from "../utils/response.js";
 
 export async function createReview(req, res, next) {
   try {
-    await createReviewService(req.body);
+    const review = await createReviewService(req.body);
+
     logger.info("Review created", {
+      review_id: review.id,
       store_id: req.body.store_id,
       product_id: req.body.product_id,
     });
-    res.status(201).json({ ok: true });
+
+    successResponse(res, {
+      status: 201,
+      data: review,
+    });
   } catch (error) {
     next(error);
   }
 }
+
