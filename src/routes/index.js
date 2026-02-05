@@ -1,7 +1,7 @@
 import { Router } from "express"
 import oauthRoutes from "./oauthRoutes.js"
 import reviewRoutes from "./reviewRoutes.js"
-import healthRoutes from "./healtRoutes.js"
+import healthRoutes from "./healthRoutes.js"
 
 
 const router = Router()

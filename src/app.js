@@ -1,8 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
-import oauthRoutes from "./routes/oauthRoutes.js";
-import reviewRoutes from "./routes/reviewRoutes.js";
+import routes from "./routes/index.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 
 const app = express();
@@ -16,12 +15,11 @@ app.use(
   })
 );
 
-app.get("/", (_, res) => {
+app.get("/", (_req, res) => {
   res.send("TrustView backend vivo");
 });
 
-app.use("/oauth", oauthRoutes);
-app.use("/reviews", reviewRoutes);
+app.use("/api/v1", routes)
 
 app.use(errorHandler);
 
