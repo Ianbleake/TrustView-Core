@@ -5,8 +5,6 @@ import oauthRoutes from "./routes/oauthRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 
-
-
 const app = express();
 
 app.use(express.json());
@@ -25,7 +23,6 @@ app.get("/", (_, res) => {
 app.use("/oauth", oauthRoutes);
 app.use("/reviews", reviewRoutes);
 
-// middleware de errores SIEMPRE al final
 app.use(errorHandler);
 
 export default app;
