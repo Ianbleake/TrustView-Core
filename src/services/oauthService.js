@@ -14,16 +14,24 @@ export async function handleOAuthCallback(code) {
 
   const { access_token, user_id, scope } = data;
 
-  const { error } = await supabase
+  const { data: store, error } = await supabase
     .from("stores")
     .upsert(
       {
         tienda_nube_user_id: user_id,
         access_token,
         scope,
+        status: "pending",
+        installed_at: new Date().toISOString(),
       },
-      { onConflict: "tienda_nube_user_id" }
-    );
+      {
+        onConflict: "tienda_nube_user_id",
+      }
+    )
+    .select()
+    .single();
 
   if (error) throw error;
+
+  return store;
 }

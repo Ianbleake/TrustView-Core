@@ -5,9 +5,11 @@ export async function oauthCallback(req, res, next) {
     const { code } = req.query;
     if (!code) return res.status(400).send("No llegó el code");
 
-    await handleOAuthCallback(code);
+    const store = await handleOAuthCallback(code);
 
-    res.send("App instalada correctamente 🚀");
+    const redirectUrl = `${process.env.FRONTEND_URL}/auth/onboarding?store=${store.id}`;
+
+    return res.redirect(302, redirectUrl);
   } catch (error) {
     next(error);
   }

@@ -1,0 +1,8 @@
+[2026-02-10T17:38:07.282Z] [INFO] === TIENDA NUBE OAUTH RESPONSE ===
+{
+  access_token: '3df2bf7d61289126081901c59509731aab3a2fb4',
+  token_type: 'bearer',
+  scope: 'read_products,write_scripts',
+  user_id: 6923323
+}
+=================================
