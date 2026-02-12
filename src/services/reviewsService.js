@@ -1,25 +1,17 @@
 import { supabase } from "../config/supabase.js";
 
-export async function getReviewsService({ store_id }) {
-
-
-  let query = supabase
+export async function getReviewsService(storeId) {
+  const { data, error } = await supabase
     .from("reviews")
-    .select("*")
+    .select("id, author_name, rating, content, product_name, created_at, approved")
+    .eq("store_id", storeId)
     .order("created_at", { ascending: false });
-
-  if (store_id) {
-    query = query.eq("store_id", store_id);
-  }
-
-  const { data, error } = await query;
 
   if (error) throw error;
 
-  return {
-    reviews: data,
-  };
+  return data;
 }
+
 
 export async function getLastReviewsService({ store_id, limit }) {
   const { data, error } = await supabase

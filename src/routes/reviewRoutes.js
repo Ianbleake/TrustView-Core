@@ -5,13 +5,12 @@ import { createReviewSchema } from "../validation/schemas/reviewsSchema.js"
 
 const router = Router()
 
-router.get("/", getReviews);
-
-
 router.get(
   "/lastReviews",
   getLastReviews
 );
+
+router.get("/:storeId", getReviews);
 
 
 router.post(

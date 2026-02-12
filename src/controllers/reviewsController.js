@@ -6,24 +6,19 @@ import { successResponse } from "../utils/response.js";
 export async function getReviews(req, res, next) {
   try {
 
-    const {
-      store_id,
-    } = req.query;
+    const { storeId } = req.params;
 
-    const reviews = await getReviewsService({ store_id });
+    const reviews = await getReviewsService(storeId);
 
-    const formattedReviews = reviews.map((review) => {
-      return {
-        id: review.id,
-        author: review.author_name,
-        rating: review.rating,
-        content: review.content,
-        product: review.product_name,
-        date: review.created_at,
-        status: review.approved,
-
-      }
-    })
+    const formattedReviews = reviews.map((review) => ({
+      id: review.id,
+      author: review.author_name,
+      rating: review.rating,
+      content: review.content,
+      product: review.product_name,
+      date: review.created_at,
+      status: review.approved,
+    }));
 
     successResponse(res, {
       data: formattedReviews,
