@@ -30,15 +30,28 @@ export async function getReviews(req, res, next) {
 
 export async function getLastReviews(req, res, next) {
   try {
-    const { store_id, limit = 10 } = req.query;
+
+    const limit = 6;
+
+    const { storeId } = req.params;
 
     const reviews = await getLastReviewsService({
-      store_id,
+      storeId,
       limit: Number(limit),
     });
 
+    const formattedReviews = reviews.map((review) => ({
+      id: review.id,
+      author: review.author_name,
+      rating: review.rating,
+      content: review.content,
+      product: review.product_name,
+      date: review.created_at,
+      status: review.approved,
+    }));
+
     successResponse(res, {
-      data: reviews,
+      data: formattedReviews,
     });
   } catch (error) {
     next(error);

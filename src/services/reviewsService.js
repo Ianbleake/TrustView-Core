@@ -13,11 +13,11 @@ export async function getReviewsService(storeId) {
 }
 
 
-export async function getLastReviewsService({ store_id, limit }) {
+export async function getLastReviewsService({ storeId, limit }) {
   const { data, error } = await supabase
     .from("reviews")
-    .select("*")
-    .eq("store_id", store_id)
+    .select("id, author_name, rating, content, product_name, created_at, approved")
+    .eq("store_id", storeId)
     .order("created_at", { ascending: false })
     .limit(limit);
 

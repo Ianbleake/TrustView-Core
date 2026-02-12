@@ -6,7 +6,7 @@ import { createReviewSchema } from "../validation/schemas/reviewsSchema.js"
 const router = Router()
 
 router.get(
-  "/lastReviews",
+  "/:storeId/last",
   getLastReviews
 );
 
