@@ -42,7 +42,7 @@ export async function createReviewService(payload) {
 }
 
 export async function approveReviewService(review_id) {
-  
+
   const { data, error } = await supabase
     .from("reviews")
     .update({ approved: true })
@@ -56,14 +56,12 @@ export async function approveReviewService(review_id) {
 }
 
 export async function rejectReviewService(review_id) {
+
   const { data, error } = await supabase
     .from("reviews")
-    .update({
-      approved: false,
-      rejected: true,
-    })
+    .update({ approved: false })
     .eq("id", review_id)
-    .select("id, approved, rejected")
+    .select("id, approved")
     .single();
 
   if (error) throw error;

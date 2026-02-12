@@ -1,6 +1,7 @@
 import { createReviewService, approveReviewService, getLastReviewsService, rejectReviewService, getReviewsService } from "../services/reviewsService.js";
 import { logger } from "../utils/logger.js";
 import { successResponse } from "../utils/response.js";
+import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
 
 
 export async function getReviews(req, res, next) {
@@ -10,15 +11,7 @@ export async function getReviews(req, res, next) {
 
     const reviews = await getReviewsService(storeId);
 
-    const formattedReviews = reviews.map((review) => ({
-      id: review.id,
-      author: review.author_name,
-      rating: review.rating,
-      content: review.content,
-      product: review.product_name,
-      date: review.created_at,
-      status: review.approved === true ? "approved" : review.approved === false ? "rejected" : review.approved === null ? "pending" : null,
-    }));
+    const formattedReviews = reviews.map((review) => reviewResponseFormat(review));
 
     successResponse(res, {
       data: formattedReviews,
@@ -40,15 +33,7 @@ export async function getLastReviews(req, res, next) {
       limit: Number(limit),
     });
 
-    const formattedReviews = reviews.map((review) => ({
-      id: review.id,
-      author: review.author_name,
-      rating: review.rating,
-      content: review.content,
-      product: review.product_name,
-      date: review.created_at,
-      status: review.approved === true ? "approved" : review.approved === false ? "rejected" : review.approved === null ? "pending" : null,
-    }));
+    const formattedReviews = reviews.map((review) => reviewResponseFormat(review));
 
     successResponse(res, {
       data: formattedReviews,
@@ -79,13 +64,23 @@ export async function createReview(req, res, next) {
 
 export async function approveReview(req, res, next) {
   try {
+
     const { review_id } = req.body;
 
     const review = await approveReviewService(review_id);
 
-    successResponse(res, {
-      data: review,
+    const formattedReview = reviewResponseFormat(review);
+
+    logger.info("Review Updated", {
+      review_id: review.id,
+      status: review.approved,
     });
+
+    successResponse(res, {
+      status: 200,
+      data: formattedReview,
+    });
+
   } catch (error) {
     next(error);
   }
@@ -93,13 +88,23 @@ export async function approveReview(req, res, next) {
 
 export async function rejectReview(req, res, next) {
   try {
+
     const { review_id } = req.body;
 
     const review = await rejectReviewService(review_id);
 
-    successResponse(res, {
-      data: review,
+    const formattedReview = reviewResponseFormat(review);
+
+    logger.info("Review Updated", {
+      review_id: review.id,
+      status: review.approved,
     });
+
+    successResponse(res, {
+      status: 200,
+      data: formattedReview,
+    });
+
   } catch (error) {
     next(error);
   }
