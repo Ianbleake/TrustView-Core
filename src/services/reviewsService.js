@@ -42,6 +42,7 @@ export async function createReviewService(payload) {
 }
 
 export async function approveReviewService(review_id) {
+  
   const { data, error } = await supabase
     .from("reviews")
     .update({ approved: true })

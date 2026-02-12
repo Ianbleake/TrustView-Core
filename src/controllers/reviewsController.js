@@ -17,7 +17,7 @@ export async function getReviews(req, res, next) {
       content: review.content,
       product: review.product_name,
       date: review.created_at,
-      status: review.approved,
+      status: review.approved === true ? "approved" : review.approved === false ? "rejected" : review.approved === null ? "pending" : null,
     }));
 
     successResponse(res, {
@@ -47,7 +47,7 @@ export async function getLastReviews(req, res, next) {
       content: review.content,
       product: review.product_name,
       date: review.created_at,
-      status: review.approved,
+      status: review.approved === true ? "approved" : review.approved === false ? "rejected" : review.approved === null ? "pending" : null,
     }));
 
     successResponse(res, {
