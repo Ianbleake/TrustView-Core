@@ -12,7 +12,6 @@ export async function getReviewsService(storeId) {
   return data;
 }
 
-
 export async function getLastReviewsService({ storeId, limit }) {
   const { data, error } = await supabase
     .from("reviews")
