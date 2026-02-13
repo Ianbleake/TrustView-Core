@@ -6,6 +6,7 @@ export function reviewResponseFormat (review) {
     author: review.author_name,
     rating: review.rating,
     content: review.content,
+    productId: review.product_id,
     product: review.product_name,
     date: review.created_at,
     status: review.approved === true ? "approved" : review.approved === false ? "rejected" : review.approved === null ? "pending" : null,

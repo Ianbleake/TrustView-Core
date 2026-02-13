@@ -12,7 +12,6 @@ router.get(
 
 router.get("/:storeId", getReviews);
 
-
 router.post(
   "/newReview",
   validate(createReviewSchema),

@@ -53,9 +53,11 @@ export async function createReview(req, res, next) {
       product_id: req.body.product_id,
     });
 
+    const formattedReview = reviewResponseFormat(review);
+
     successResponse(res, {
       status: 201,
-      data: review,
+      data: formattedReview,
     });
   } catch (error) {
     next(error);

@@ -3,7 +3,7 @@ import { supabase } from "../config/supabase.js";
 export async function getReviewsService(storeId) {
   const { data, error } = await supabase
     .from("reviews")
-    .select("id, author_name, rating, content, product_name, created_at, approved")
+    .select("id, author_name, rating, content,product_id, product_name, created_at, approved")
     .eq("store_id", storeId)
     .order("created_at", { ascending: false });
 
@@ -16,7 +16,7 @@ export async function getReviewsService(storeId) {
 export async function getLastReviewsService({ storeId, limit }) {
   const { data, error } = await supabase
     .from("reviews")
-    .select("id, author_name, rating, content, product_name, created_at, approved")
+    .select("id, author_name, rating, content,product_id, product_name, created_at, approved")
     .eq("store_id", storeId)
     .order("created_at", { ascending: false })
     .limit(limit);
@@ -31,9 +31,8 @@ export async function createReviewService(payload) {
     .from("reviews")
     .insert({
       ...payload,
-      approved: false,
     })
-    .select("id, approved")
+    .select("id, author_name, rating, content,product_id, product_name, created_at, approved")
     .single();
 
   if (error) throw error;
