@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createReview, getLastReviews, approveReview, rejectReview, getReviews } from "../controllers/reviewsController.js"
+import { createReview, getLastReviews, approveReview, rejectReview, getReviews, deleteReview } from "../controllers/reviewsController.js"
 import { validate } from "../validation/validate.js"
 import { createReviewSchema } from "../validation/schemas/reviewsSchema.js"
 
@@ -11,6 +11,8 @@ router.get(
 );
 
 router.get("/:storeId", getReviews);
+
+router.delete("/remove/:reviewId",deleteReview );
 
 router.post(
   "/newReview",

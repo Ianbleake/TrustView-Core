@@ -112,3 +112,26 @@ export async function rejectReview(req, res, next) {
   }
 }
 
+export async function deleteReview(req, res, next) {
+  try {
+
+    const { reviewId } = req.params;
+
+    const removedReview = await approveReviewService(reviewId);
+
+    logger.info("Review Deleted", {
+      review_id: removedReview.id,
+    });
+
+    successResponse(res, {
+      status: 200,
+      data: {
+        id: removedReview.id,
+      },
+    });
+
+  }catch (error){
+    next(error);
+  }
+}
+
