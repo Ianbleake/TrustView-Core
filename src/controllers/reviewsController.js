@@ -1,7 +1,7 @@
 import { logger } from "../utils/logger.js";
 import { successResponse } from "../utils/response.js";
 import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
-import { createReviewService, approveReviewService, getLastReviewsService, rejectReviewService, getReviewsService, deleteReviewService } from "../services/reviewsService.js";
+import { createReviewService, approveReviewService, getLastReviewsService, rejectReviewService, getReviewsService, deleteReviewService, importReviewsService } from "../services/reviewsService.js";
 
 
 export async function getReviews(req, res, next) {
@@ -131,6 +131,36 @@ export async function deleteReview(req, res, next) {
     });
 
   }catch (error){
+    next(error);
+  }
+}
+
+export async function importReviews(req, res, next) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Archivo requerido",
+      });
+    }
+
+    const { store_id } = req.body;
+
+    if (!store_id) {
+      return res.status(400).json({
+        message: "store_id requerido",
+      });
+    }
+
+    const result = await importReviewsService({
+      fileBuffer: req.file.buffer,
+      store_id,
+    });
+
+    successResponse(res, {
+      status: 200,
+      data: result,
+    });
+  } catch (error) {
     next(error);
   }
 }

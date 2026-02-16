@@ -1,4 +1,6 @@
 import { supabase } from "../config/supabase.js";
+import { parse } from "csv-parse/sync";
+import { validateRow } from "../utils/validateRow.js";
 
 export async function getReviewsService(storeId) {
   const { data, error } = await supabase
@@ -81,5 +83,88 @@ export async function deleteReviewService(reviewId) {
     return data;
 }
 
+export async function importReviewsService({ fileBuffer, store_id }) {
+  const content = fileBuffer.toString("utf-8");
+
+  const records = parse(content, {
+    columns: true,
+    skip_empty_lines: true,
+    trim: true,
+  });
+
+  if (!records.length) {
+    return {
+      total: 0,
+      inserted: { count: 0, reviews: [] },
+      failed: { count: 0, reviews: [] },
+      errors: [],
+    };
+  }
+  
+  const total = records.length;
+
+  const validReviews = [];
+  const failedReviews = [];
+  const errors = [];
+
+  records.forEach((row, index) => {
+    const rowErrors = validateRow(row);
+
+    if (rowErrors.length > 0) {
+      failedReviews.push(row);
+
+      errors.push({
+        row: index + 2, // +2 porque header es fila 1
+        error: rowErrors.join(", "),
+      });
+
+      return;
+    }
+
+    validReviews.push({
+      store_id,
+      product_id: row.product_id,
+      product_name: row.product_name || null,
+      author_name: row.author_name,
+      rating: Number(row.rating),
+      content: row.content || null,
+      image_url: null, // no viene en la plantilla
+      approved:
+        row.approved === "true" || row.approved === true ? true :
+        row.approved === "false" || row.approved === false
+          ? false
+          : null, // si no es ni true ni false, lo dejamos como null para revisión manual
+    });    
+
+  });
+
+  let insertedReviews = [];
+
+  if (validReviews.length > 0) {
+    const { data, error } = await supabase
+      .from("reviews")
+      .insert(validReviews)
+      .select(
+        "id, author_name, rating, content, product_id, product_name, created_at, approved"
+      );
+
+    if (error) throw error;
+
+    insertedReviews = data;
+  }
+
+  return {
+    total,
+    inserted: {
+      count: insertedReviews.length,
+      reviews: insertedReviews,
+    },
+    failed: {
+      count: failedReviews.length,
+      reviews: failedReviews,
+    },
+    errors,
+  };
+}
 
 

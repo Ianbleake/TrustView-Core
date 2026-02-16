@@ -1,7 +1,8 @@
 import { Router } from "express"
-import { createReview, getLastReviews, approveReview, rejectReview, getReviews, deleteReview } from "../controllers/reviewsController.js"
+import { createReview, getLastReviews, approveReview, rejectReview, getReviews, deleteReview, importReviews } from "../controllers/reviewsController.js"
 import { validate } from "../validation/validate.js"
 import { createReviewSchema } from "../validation/schemas/reviewsSchema.js"
+import { upload } from "../middlewares/filesMiddleware.js"
 
 const router = Router()
 
@@ -21,10 +22,15 @@ router.post(
 );
 
 router.post(
+  "/importReviews",
+  upload.single("file"),
+  importReviews
+)
+
+router.post(
   "/approveReview",
   approveReview
 );
-
 
 router.post(
   "/rejectReview",
