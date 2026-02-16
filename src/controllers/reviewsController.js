@@ -1,7 +1,7 @@
 import { logger } from "../utils/logger.js";
 import { successResponse } from "../utils/response.js";
 import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
-import { createReviewService, approveReviewService, getLastReviewsService, rejectReviewService, getReviewsService } from "../services/reviewsService.js";
+import { createReviewService, approveReviewService, getLastReviewsService, rejectReviewService, getReviewsService, deleteReviewService } from "../services/reviewsService.js";
 
 
 export async function getReviews(req, res, next) {
@@ -117,7 +117,7 @@ export async function deleteReview(req, res, next) {
 
     const { reviewId } = req.params;
 
-    const removedReview = await approveReviewService(reviewId);
+    const removedReview = await deleteReviewService(reviewId);
 
     logger.info("Review Deleted", {
       review_id: removedReview.id,
