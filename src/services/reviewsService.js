@@ -154,7 +154,7 @@ export async function importReviewsService({ fileBuffer, store_id }) {
     insertedReviews = data;
   }
 
-  const insertedFormattedReviews = reviewResponseFormat(insertedReviews);
+  const insertedFormattedReviews = insertedReviews.length > 0 && reviewResponseFormat(insertedReviews) || [];
 
   return {
     total,
