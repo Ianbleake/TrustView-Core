@@ -85,6 +85,7 @@ export async function deleteReviewService(reviewId) {
 }
 
 export async function importReviewsService({ fileBuffer, store_id }) {
+
   const content = fileBuffer.toString("utf-8");
 
   const records = parse(content, {
@@ -154,13 +155,13 @@ export async function importReviewsService({ fileBuffer, store_id }) {
     insertedReviews = data;
   }
 
-  const insertedFormattedReviews = insertedReviews.length > 0 && reviewResponseFormat(insertedReviews) || [];
+  const formattedInsertedReviews = insertedReviews.map((review) => reviewResponseFormat(review));
 
   return {
     total,
     inserted: {
       count: insertedReviews.length,
-      reviews: insertedFormattedReviews,
+      reviews: formattedInsertedReviews,
     },
     failed: {
       count: failedReviews.length,
