@@ -1,6 +1,7 @@
 import { supabase } from "../config/supabase.js";
 import { parse } from "csv-parse/sync";
 import { validateRow } from "../utils/validateRow.js";
+import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
 
 export async function getReviewsService(storeId) {
   const { data, error } = await supabase
@@ -153,11 +154,13 @@ export async function importReviewsService({ fileBuffer, store_id }) {
     insertedReviews = data;
   }
 
+  const insertedFormattedReviews = reviewResponseFormat(insertedReviews);
+
   return {
     total,
     inserted: {
       count: insertedReviews.length,
-      reviews: insertedReviews,
+      reviews: insertedFormattedReviews,
     },
     failed: {
       count: failedReviews.length,
