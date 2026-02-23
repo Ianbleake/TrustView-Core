@@ -6,6 +6,7 @@ import onboardingRoutes from "./onboardingRoutes.js"
 import analyticsRoutes from "./analyticsRoutes.js"
 import storesRoutes from "./storesRoutes.js"
 import settingsRoutes from "./settingsRoutes.js"
+import storeRoutes from "./storeRoutes.js"
 
 const router = Router()
 
@@ -15,6 +16,7 @@ router.use("/onboarding", onboardingRoutes);
 router.use("/reviews", reviewRoutes);
 router.use("/analytics", analyticsRoutes);
 router.use("/settings", settingsRoutes);
-router.use("/stores", storesRoutes)
+router.use("/stores", storesRoutes);
+router.use("/store",storeRoutes);
 
 export default router
