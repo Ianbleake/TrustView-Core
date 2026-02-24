@@ -1,4 +1,4 @@
-import { updateAvatarService, updateBannerService } from "../services/updateAvatarService.js";
+import { updateAvatarService, updateBannerService, updateProfileInfoService } from "../services/updateAvatarService.js";
 import { successResponse } from "../utils/response.js";
 
 export async function updateAvatar(req, res, next) {
@@ -33,6 +33,22 @@ export async function updateBanner(req, res, next) {
   } catch( error ) {
     next(error);
   }
-
-
 }
+
+export async function updateInfo(req, res, next) {
+  
+    try{
+  
+      const { user_id, first_name, last_name, email   } = req.body;
+  
+      const updatedInfo = await updateProfileInfoService(user_id, first_name, last_name, email);
+  
+      successResponse(res, {
+        status: 200,
+        data: updatedInfo,
+      });
+  
+    } catch( error ) {
+      next(error);
+    }
+  }

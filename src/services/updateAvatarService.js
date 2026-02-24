@@ -26,4 +26,18 @@ export async function updateBannerService(user_id, banner, banner_accent_color) 
     if (error) throw error;
   
     return data;
-  }
+}
+
+export async function updateProfileInfoService(user_id, first_name, last_name, email) {
+  
+  const { data, error } = await supabase
+    .from("profile")
+    .update({ first_name, last_name, email })
+    .eq("id", user_id)
+    .select("id, first_name, last_name, email")
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}

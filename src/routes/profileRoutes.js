@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { updateAvatar, updateBanner } from "../controllers/profileController.js";
+import { updateAvatar, updateBanner, updateInfo } from "../controllers/profileController.js";
 
 
 const router = Router();
@@ -10,6 +10,10 @@ router.post("/updateAvatar",
 
 router.post("/updateBanner",
   updateBanner
+)
+
+router.post("/updateInfo",
+  updateInfo
 )
 
 export default router
