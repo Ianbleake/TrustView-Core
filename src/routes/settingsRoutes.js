@@ -1,9 +1,8 @@
-import { Router } from "express"
+import { Router } from "express";
+import { updateSettingsNotifications } from "../controllers/settingsController.js";
 
-const router = Router()
+const router = Router();
 
-router.get("/",(req, res) => {
-  res.json({ message: "app settings working" })
-})
+router.patch("/notifications", updateSettingsNotifications);
 
-export default router
+export default router;
