@@ -39,9 +39,9 @@ export async function updateInfo(req, res, next) {
   
     try{
   
-      const { user_id, first_name, last_name, email   } = req.body;
+      const { user_id, first_name, last_name } = req.body;
   
-      const updatedInfo = await updateProfileInfoService(user_id, first_name, last_name, email);
+      const updatedInfo = await updateProfileInfoService(user_id, first_name, last_name);
   
       successResponse(res, {
         status: 200,
