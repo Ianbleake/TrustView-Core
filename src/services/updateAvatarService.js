@@ -28,8 +28,28 @@ export async function updateBannerService(user_id, banner, banner_accent_color) 
     return data;
 }
 
-export async function updateProfileInfoService(user_id, first_name, last_name, email) {
-  
+export async function updateProfileInfoService(
+  user_id,
+  first_name,
+  last_name,
+  email
+) {
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) throw userError;
+
+  if (email !== user.email) {
+    const { error: authError } = await supabase.auth.updateUser({
+      email,
+    });
+
+    if (authError) throw authError;
+  }
+
   const { data, error } = await supabase
     .from("profile")
     .update({ first_name, last_name, email })
