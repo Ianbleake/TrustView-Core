@@ -7,6 +7,7 @@ import analyticsRoutes from "./analyticsRoutes.js"
 import storesRoutes from "./storesRoutes.js"
 import settingsRoutes from "./settingsRoutes.js"
 import storeRoutes from "./storeRoutes.js"
+import profileRoutes from "./profileRoutes.js"
 
 const router = Router()
 
@@ -18,5 +19,6 @@ router.use("/analytics", analyticsRoutes);
 router.use("/settings", settingsRoutes);
 router.use("/stores", storesRoutes);
 router.use("/store",storeRoutes);
+router.use("/profile",profileRoutes);
 
 export default router
