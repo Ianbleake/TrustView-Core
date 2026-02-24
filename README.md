@@ -1,8 +1,1 @@
-# TrustView-core
-CLIENT_ID=25820
-CLIENT_SECRET=f113d4255afd369f6d5500c6a941ff18ba3fd16cd4c89d92
-REDIRECT_URI=http://localhost:3000/oauth/callback
-
-
-SUPABASE_URL=https://iafcdxxocafgrtfddewn.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhZmNkeHhvY2FmZ3J0ZmRkZXduIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2OTk5MjgyMiwiZXhwIjoyMDg1NTY4ODIyfQ.XHcJ3MPSzzMkG4LtkSmUfFui9c80vFQy2OUcGHCqAY8
+,+
