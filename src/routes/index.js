@@ -8,6 +8,7 @@ import storesRoutes from "./storesRoutes.js"
 import settingsRoutes from "./settingsRoutes.js"
 import storeRoutes from "./storeRoutes.js"
 import profileRoutes from "./profileRoutes.js"
+import widgetRoutes from "./widgetRoutes.js"
 
 const router = Router()
 
@@ -20,5 +21,6 @@ router.use("/settings", settingsRoutes);
 router.use("/stores", storesRoutes);
 router.use("/store",storeRoutes);
 router.use("/profile",profileRoutes);
+router.use("/widget",widgetRoutes);
 
 export default router

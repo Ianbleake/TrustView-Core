@@ -11,7 +11,7 @@ app.use(cors({
   origin: [
     "https://trustview.noctis.lat",
     "http://localhost:3000",
-    "http://localhost:3001",
+    "*",
   ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 }));
