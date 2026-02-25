@@ -48,7 +48,7 @@ export async function widgetConfig(store_id) {
   const { data, error } = await supabase
     .from("stores")
     .select("widget_config")
-    .eq("store_id",store_id);
+    .eq("tienda_nube_user_id",store_id);
 
     if(error) throw error;
 
