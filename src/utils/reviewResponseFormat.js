@@ -10,6 +10,7 @@ export function reviewResponseFormat (review) {
     product: review.product_name,
     date: review.created_at,
     status: review.approved === true ? "approved" : review.approved === false ? "rejected" : review.approved === null ? "pending" : null,
+    productUrl: review.product_url,
   }
 
 }
