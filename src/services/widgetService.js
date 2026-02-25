@@ -44,13 +44,13 @@ export async function productReviewsService(store_id, product_id) {
 }
 
 export async function widgetConfig(store_id) {
-
   const { data, error } = await supabase
     .from("stores")
     .select("widget_config")
-    .eq("tienda_nube_user_id",store_id);
+    .eq("tienda_nube_user_id", store_id)
+    .single();
 
-    if(error) throw error;
+  if (error) throw error;
 
-    return data;
-} 
+  return data.widget_config;
+}
