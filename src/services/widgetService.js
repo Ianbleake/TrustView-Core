@@ -5,7 +5,7 @@ export async function widgetLastReviews( store_id) {
   const { data, error } = await supabase
     .from("reviews")
     .select("id, author_name, rating, content,product_id, product_name, created_at, approved")
-    .eq("store_id", store_id)
+    .eq("tienda_nube_user_id", store_id)
     .eq("approved", true)
     .order("created_at", { ascending: false })
     .limit(9);
@@ -20,7 +20,7 @@ export async function productRatingReviews(store_id, product_id) {
   const { data, error } = await supabase
     .from("reviews")
     .select("rating")
-    .eq("store_id",store_id)
+    .eq("tienda_nube_user_id",store_id)
     .eq("product_id",product_id)
     .eq("approved", true);
 
@@ -33,7 +33,7 @@ export async function productReviewsService(store_id, product_id) {
   const { data, error } = await supabase
     .from("reviews")
     .select("id, author_name, rating, content,product_id, product_name, created_at, approved")
-    .eq("store_id",store_id)
+    .eq("tienda_nube_user_id",store_id)
     .eq("product_id",product_id)
     .eq("approved", true)
     .order("created_at", { ascending: false });
