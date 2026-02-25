@@ -7,15 +7,15 @@ import { errorHandler } from "./middlewares/errorMiddleware.js";
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "https://trustview.noctis.lat",
-    "http://localhost:3000",
-    "*",
-  ],
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-}));
+app.use(
+  cors({
+    origin: true, // refleja el origin automáticamente
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: false, // importante
+  })
+);
 
+app.options("*", cors());
 
 app.use(express.json());
 
