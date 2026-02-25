@@ -1,6 +1,7 @@
 import { successResponse } from "../utils/response.js";
 import { productRatingReviews, productReviewsService, widgetConfig, widgetLastReviews } from "../services/widgetService.js";
 import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
+import { logger } from "../utils/logger.js";
 
 export async function getLastReviews(req, res, next) {
   try {
@@ -72,6 +73,10 @@ export async function getProductReviews(req, res, next) {
     successResponse(res, {
       status: 200,
       data: formattedReviews,
+    });
+
+    logger.info("Product Reviews geted", {
+      store: store_id
     });
 
   } catch (error) {
