@@ -7,7 +7,7 @@ router.post("/lastreviews",
   getLastReviews
 );
 
-router.post("/prroduct/rating",
+router.post("/product/rating",
   getProductRating
 );
 
