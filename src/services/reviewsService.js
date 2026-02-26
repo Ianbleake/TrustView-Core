@@ -86,6 +86,8 @@ export async function deleteReviewService(reviewId) {
 
 export async function importReviewsService({ fileBuffer, store_id, tn_store_id }) {
 
+  const MAX_IMPORT_REVIEWS = 100;
+
   const content = fileBuffer.toString("utf-8");
 
   const records = parse(content, {
@@ -93,6 +95,20 @@ export async function importReviewsService({ fileBuffer, store_id, tn_store_id }
     skip_empty_lines: true,
     trim: true,
   });
+
+  if (records.length > MAX_IMPORT_REVIEWS) {
+    return {
+      total: records.length,
+      inserted: { count: 0, reviews: [] },
+      failed: { count: 0, reviews: [] },
+      errors: [
+        {
+          row: null,
+          error: `El archivo excede el máximo permitido de ${MAX_IMPORT_REVIEWS} reviews`,
+        },
+      ],
+    };
+  }
 
   if (!records.length) {
     return {
