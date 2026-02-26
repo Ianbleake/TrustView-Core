@@ -144,7 +144,7 @@ export async function importReviews(req, res, next) {
       });
     }
 
-    const { store_id } = req.body;
+    const { store_id, tn_store_id } = req.body;
 
     if (!store_id) {
       return res.status(400).json({
@@ -155,6 +155,7 @@ export async function importReviews(req, res, next) {
     const result = await importReviewsService({
       fileBuffer: req.file.buffer,
       store_id,
+      tn_store_id,
     });
 
     successResponse(res, {

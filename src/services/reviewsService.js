@@ -84,7 +84,7 @@ export async function deleteReviewService(reviewId) {
     return data;
 }
 
-export async function importReviewsService({ fileBuffer, store_id }) {
+export async function importReviewsService({ fileBuffer, store_id, tn_store_id }) {
 
   const content = fileBuffer.toString("utf-8");
 
@@ -127,6 +127,7 @@ export async function importReviewsService({ fileBuffer, store_id }) {
       store_id,
       product_id: row.product_id,
       product_name: row.product_name || null,
+      product_url: row.product_url,
       author_name: row.author_name,
       rating: Number(row.rating),
       content: row.content || null,
@@ -136,6 +137,7 @@ export async function importReviewsService({ fileBuffer, store_id }) {
         row.approved === "false" || row.approved === false
           ? false
           : null, // si no es ni true ni false, lo dejamos como null para revisión manual
+      tienda_nube_user_id: tn_store_id,
     });    
 
   });
@@ -147,7 +149,7 @@ export async function importReviewsService({ fileBuffer, store_id }) {
       .from("reviews")
       .insert(validReviews)
       .select(
-        "id, author_name, rating, content, product_id, product_name, created_at, approved"
+        "id, author_name, rating, content, product_id, product_name, created_at, approved, product_url"
       );
 
     if (error) throw error;
