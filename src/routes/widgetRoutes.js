@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getLastReviews, getProductRating, getProductReviews, getWidgetConfig } from "../controllers/widgetController.js";
+import { getLastReviews, getProductRating, getProductReviews, getWidgetConfig, newReview } from "../controllers/widgetController.js";
 
 const router = Router();
 
@@ -18,5 +18,9 @@ router.post("/product/reviews",
 router.post("/config",
   getWidgetConfig
 );
+
+router.post("/newReview",
+  newReview
+)
 
 export default router

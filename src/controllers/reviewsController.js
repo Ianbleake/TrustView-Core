@@ -45,6 +45,7 @@ export async function getLastReviews(req, res, next) {
 
 export async function createReview(req, res, next) {
   try {
+    
     const review = await createReviewService(req.body);
 
     logger.info("Review created", {

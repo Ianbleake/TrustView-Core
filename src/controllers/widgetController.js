@@ -1,7 +1,8 @@
 import { successResponse } from "../utils/response.js";
-import { productRatingReviews, productReviewsService, widgetConfig, widgetLastReviews } from "../services/widgetService.js";
+import { getInternalStoreId, productRatingReviews, productReviewsService, widgetConfig, widgetLastReviews } from "../services/widgetService.js";
 import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
 import { logger } from "../utils/logger.js";
+import { createReviewService } from "../services/reviewsService.js";
 
 export async function getLastReviews(req, res, next) {
   try {
@@ -98,6 +99,37 @@ export async function getWidgetConfig(req, res, next) {
     });
 
   } catch (error) {
+    next(error);
+  }
+}
+
+export async function newReview(req,res,next){
+
+  try{
+
+    const widgetReview = req.body;
+
+    const internal_store_id = await getInternalStoreId(widgetReview.tn_store_id)
+
+    const newReview = {
+      store_id: internal_store_id,
+      product_id: widgetReview.product_id,
+      product_name: widgetReview.product_name,
+      author_name: widgetReview.author_name,
+      rating: widgetReview.rating,
+      content: widgetReview.content,
+      tienda_nube_user_id: widgetReview.tn_store_id,
+      product_url: widgetReview.product_url,
+    }
+
+    await createReviewService(newReview)
+
+    successResponse(res, {
+      status: 200,
+      data: null,
+    });
+
+  }catch(error){
     next(error);
   }
 }

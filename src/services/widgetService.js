@@ -54,3 +54,16 @@ export async function widgetConfig(store_id) {
 
   return data.widget_config;
 }
+
+export async function getInternalStoreId(external_store_id) {
+
+  const { data, error } = await supabase
+    .from("stores")
+    .select("id")
+    .eq("tienda_nube_user_id",external_store_id)
+    .single();
+
+  if (error) throw error;
+
+  return data.id;
+}
