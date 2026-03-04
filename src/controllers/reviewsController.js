@@ -51,7 +51,7 @@ export async function createReview(req, res, next) {
     logger.info("Review created", {
       review_id: review.id,
       store_id: req.body.store_id,
-      product_id: req.body.product_id,
+      product_external_id: req.body.product_external_id,
     });
 
     const formattedReview = reviewResponseFormat(review);

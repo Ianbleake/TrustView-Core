@@ -6,7 +6,7 @@ import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
 export async function getReviewsService(storeId) {
   const { data, error } = await supabase
     .from("reviews")
-    .select("id, author_name, rating, content,product_id, product_name, created_at, approved,product_url")
+    .select("id, author_name, rating, content,product_external_id, product_name, created_at, approved,product_url")
     .eq("store_id", storeId)
     .order("created_at", { ascending: false });
 
@@ -18,7 +18,7 @@ export async function getReviewsService(storeId) {
 export async function getLastReviewsService({ storeId, limit }) {
   const { data, error } = await supabase
     .from("reviews")
-    .select("id, author_name, rating, content,product_id, product_name, created_at, approved,product_url")
+    .select("id, author_name, rating, content,product_external_id, product_name, created_at, approved,product_url")
     .eq("store_id", storeId)
     .order("created_at", { ascending: false })
     .limit(limit);
@@ -34,7 +34,7 @@ export async function createReviewService(payload) {
     .insert({
       ...payload,
     })
-    .select("id, author_name, rating, content,product_id, product_name, created_at, approved,product_url")
+    .select("id, author_name, rating, content,product_external_id, product_name, created_at, approved,product_url")
     .single();
 
   if (error) throw error;
@@ -141,7 +141,7 @@ export async function importReviewsService({ fileBuffer, store_id, tn_store_id }
 
     validReviews.push({
       store_id,
-      product_id: row.product_id,
+      product_external_id: row.product_external_id,
       product_name: row.product_name || null,
       product_url: row.product_url,
       author_name: row.author_name,
@@ -165,7 +165,7 @@ export async function importReviewsService({ fileBuffer, store_id, tn_store_id }
       .from("reviews")
       .insert(validReviews)
       .select(
-        "id, author_name, rating, content, product_id, product_name, created_at, approved, product_url"
+        "id, author_name, rating, content, product_external_id, product_name, created_at, approved, product_url"
       );
 
     if (error) throw error;

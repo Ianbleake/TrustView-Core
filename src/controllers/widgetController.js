@@ -25,11 +25,11 @@ export async function getLastReviews(req, res, next) {
 export async function getProductRating(req, res, next) {
   try {
 
-    const { storeId: store_id, productId: product_id } = req.body;
+    const { storeId: store_id, productId: product_external_id } = req.body;
 
     const ratingReviews = await productRatingReviews(
       store_id,
-      product_id
+      product_external_id
     );
 
     const total = ratingReviews.length;
@@ -65,9 +65,9 @@ export async function getProductRating(req, res, next) {
 export async function getProductReviews(req, res, next) {
   try {
 
-    const { storeId: store_id, productId: product_id } = req.body;
+    const { storeId: store_id, productId: product_external_id } = req.body;
 
-    const productReviews = await productReviewsService(store_id,product_id);
+    const productReviews = await productReviewsService(store_id,product_external_id);
 
     const formattedReviews = productReviews.map((review) => reviewResponseFormat(review));
 
@@ -113,7 +113,7 @@ export async function newReview(req,res,next){
 
     const newReview = {
       store_id: internal_store_id,
-      product_id: widgetReview.product_id,
+      product_external_id: widgetReview.product_external_id,
       product_name: widgetReview.product_name,
       author_name: widgetReview.author_name,
       rating: widgetReview.rating,

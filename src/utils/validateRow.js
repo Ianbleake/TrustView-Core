@@ -1,8 +1,8 @@
 export function validateRow(row) {
   const errors = [];
 
-  if (!row.product_id) {
-    errors.push("product_id requerido");
+  if (!row.product_external_id) {
+    errors.push("product_external_id requerido");
   }
 
   if (!row.author_name) {
