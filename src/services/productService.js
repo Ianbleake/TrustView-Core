@@ -1,7 +1,7 @@
 import { supabase } from "../config/supabase.js";
 
 export async function upsertProduct(newProduct) {
-  
+
   const { data: existing } = await supabase
     .from("products")
     .select("*")

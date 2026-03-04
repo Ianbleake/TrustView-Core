@@ -110,11 +110,7 @@ export async function newReview(req,res,next){
 
     const widgetReview = req.body;
 
-    const internal_store_id = await getInternalStoreId(widgetReview.tn_store_id);
-
-    if (!internal_store_id) {
-      throw new Error("Store ID was not resolved")
-    }
+    const internal_store_id = await getInternalStoreId(widgetReview.store_external_id);
 
     const productId = await upsertProduct({
       store_id: internal_store_id,
@@ -125,10 +121,6 @@ export async function newReview(req,res,next){
       product_url: widgetReview.product_url,
     })
 
-    if (!productId) {
-      throw new Error("Product ID was not resolved")
-    }
-
     const newReview = {
       store_id: internal_store_id,
       product_id: productId,
@@ -137,7 +129,7 @@ export async function newReview(req,res,next){
       author_name: widgetReview.author_name,
       rating: widgetReview.rating,
       content: widgetReview.content,
-      tienda_nube_user_id: widgetReview.tn_store_id,
+      tienda_nube_user_id: widgetReview.store_external_id,
       product_url: widgetReview.product_url,
     }
 
