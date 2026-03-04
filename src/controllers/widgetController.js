@@ -121,7 +121,7 @@ export async function newReview(req,res,next){
       product_url: widgetReview.product_url,
     })
 
-    logger.info(`ProductID: ${productId}`);
+    console.log(`ProductID: ${productId}`);
 
     const newReview = {
       store_id: internal_store_id,
