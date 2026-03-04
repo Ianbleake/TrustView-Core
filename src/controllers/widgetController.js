@@ -112,6 +112,10 @@ export async function newReview(req,res,next){
 
     const internal_store_id = await getInternalStoreId(widgetReview.tn_store_id);
 
+    if (!internal_store_id) {
+      throw new Error("Store ID was not resolved")
+    }
+
     const productId = await upsertProduct({
       store_id: internal_store_id,
       store_external_id: widgetReview.store_external_id,
@@ -121,7 +125,9 @@ export async function newReview(req,res,next){
       product_url: widgetReview.product_url,
     })
 
-    console.log(`ProductID: ${productId}`);
+    if (!productId) {
+      throw new Error("Product ID was not resolved")
+    }
 
     const newReview = {
       store_id: internal_store_id,
