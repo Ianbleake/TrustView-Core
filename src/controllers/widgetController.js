@@ -3,6 +3,7 @@ import { getInternalStoreId, productRatingReviews, productReviewsService, widget
 import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
 import { logger } from "../utils/logger.js";
 import { createReviewService } from "../services/reviewsService.js";
+import { upsertProduct } from "../services/productService.js";
 
 export async function getLastReviews(req, res, next) {
   try {
@@ -109,10 +110,20 @@ export async function newReview(req,res,next){
 
     const widgetReview = req.body;
 
-    const internal_store_id = await getInternalStoreId(widgetReview.tn_store_id)
+    const internal_store_id = await getInternalStoreId(widgetReview.tn_store_id);
+
+    const productId = await upsertProduct({
+      store_id: internal_store_id,
+      store_external_id: widgetReview.store_external_id,
+      product_name: widgetReview.product_name,
+      product_external_id: widgetReview.product_external_id,
+      product_img: widgetReview.product_img,
+      product_url: widgetReview.product_url,
+    })
 
     const newReview = {
       store_id: internal_store_id,
+      product_id: productId,
       product_external_id: widgetReview.product_external_id,
       product_name: widgetReview.product_name,
       author_name: widgetReview.author_name,

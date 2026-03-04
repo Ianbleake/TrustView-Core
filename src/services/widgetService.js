@@ -55,6 +55,7 @@ export async function widgetConfig(store_id) {
   return data.widget_config;
 }
 
+//TODO: Mover esto a los servicios de store
 export async function getInternalStoreId(external_store_id) {
 
   const { data, error } = await supabase
