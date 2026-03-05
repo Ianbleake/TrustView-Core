@@ -10,8 +10,9 @@ export async function upsertProduct(newProduct) {
 
   const payload = {
     ...newProduct,
-    product_img:
-      newProduct.product_img ?? existing?.product_img ?? null
+    product_name: newProduct.product_name ?? existing?.product_name ?? null,
+    product_img: newProduct.product_img ?? existing?.product_img ?? null,
+    product_url: newProduct.product_url ?? existing?.product_url ?? null,
   }
 
   const { data, error } = await supabase
