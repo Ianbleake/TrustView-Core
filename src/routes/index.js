@@ -9,6 +9,7 @@ import settingsRoutes from "./settingsRoutes.js"
 import storeRoutes from "./storeRoutes.js"
 import profileRoutes from "./profileRoutes.js"
 import widgetRoutes from "./widgetRoutes.js"
+import productRoutes from "./productRoutes.js"
 
 const router = Router()
 
@@ -22,6 +23,7 @@ router.use("/stores", storesRoutes);
 router.use("/store",storeRoutes);
 router.use("/profile",profileRoutes);
 router.use("/widget",widgetRoutes);
+router.use("/products",productRoutes)
 
 export default router
 

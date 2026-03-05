@@ -27,3 +27,49 @@ export async function upsertProduct(newProduct) {
 
   return data.id
 }
+
+export async function getStoreProducts( store_id, fields ) {
+
+  const fieldsSelected = fields ? fields : "*";
+
+  const { data, error } = await supabase
+    .from("prodcts")
+    .select(fieldsSelected)
+    .eq("store_id",store_id);
+
+  if(error) throw error;
+
+  return data;
+}
+
+export async function getProduct( product_id, fields ) {
+
+  const fieldsSelected = fields ? fields : "*";
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(fieldsSelected)
+    .eq("id",product_id)
+    .single();
+
+  if(error) throw error;
+
+  return data;
+
+}
+
+export async function getProductReviews( product_id, fields ) {
+
+  const fieldsSelected = fields ? fields : "*";
+
+  const { data, error } = await supabase
+    .from("reviews")
+    .select(fieldsSelected)
+    .eq("product_id",product_id)
+    .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    return data;
+
+}
