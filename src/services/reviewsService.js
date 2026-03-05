@@ -2,6 +2,7 @@ import { supabase } from "../config/supabase.js";
 import { parse } from "csv-parse/sync";
 import { validateRow } from "../utils/validateRow.js";
 import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
+import { upsertProduct } from "./productService.js";
 
 export async function getReviewsService(storeId) {
   const { data, error } = await supabase
@@ -84,6 +85,7 @@ export async function deleteReviewService(reviewId) {
     return data;
 }
 
+//TODO: Optimizar esta madre
 export async function importReviewsService({ fileBuffer, store_id, tn_store_id }) {
 
   const MAX_IMPORT_REVIEWS = 100;
@@ -147,12 +149,12 @@ export async function importReviewsService({ fileBuffer, store_id, tn_store_id }
       author_name: row.author_name,
       rating: Number(row.rating),
       content: row.content || null,
-      image_url: null, // no viene en la plantilla
+      image_url: null,
       approved:
         row.approved === "true" || row.approved === true ? true :
         row.approved === "false" || row.approved === false
           ? false
-          : null, // si no es ni true ni false, lo dejamos como null para revisión manual
+          : null,
       tienda_nube_user_id: tn_store_id,
     });    
 
@@ -160,17 +162,47 @@ export async function importReviewsService({ fileBuffer, store_id, tn_store_id }
 
   let insertedReviews = [];
 
-  if (validReviews.length > 0) {
-    const { data, error } = await supabase
-      .from("reviews")
-      .insert(validReviews)
-      .select(
-        "id, author_name, rating, content, product_external_id, product_name, created_at, approved, product_url"
-      );
-
-    if (error) throw error;
-
-    insertedReviews = data;
+  for (const review of validReviews) {
+  
+    try {
+  
+      const productId = await upsertProduct({
+        store_id: review.store_id,
+        store_external_id: review.tienda_nube_user_id,
+        product_name: review.product_name,
+        product_external_id: review.product_external_id,
+        product_img: review.image_url,
+        product_url: review.product_url,
+      });
+  
+      const reviewPayload = {
+        ...review,
+        product_id: productId,
+      };
+  
+      const { data, error } = await supabase
+        .from("reviews")
+        .insert(reviewPayload)
+        .select(
+          "id, author_name, rating, content, product_external_id, product_name, created_at, approved, product_url"
+        )
+        .single();
+  
+      if (error) throw error;
+  
+      insertedReviews.push(data);
+  
+    } catch (error) {
+  
+      failedReviews.push(review);
+  
+      errors.push({
+        row: null,
+        error: error.message,
+      });
+  
+    }
+  
   }
 
   const formattedInsertedReviews = insertedReviews.map((review) => reviewResponseFormat(review));
