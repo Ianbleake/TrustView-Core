@@ -1,4 +1,4 @@
-import { getProductReviews, getStoreProducts } from "../services/productService.js";
+import { getProductReviews, getProductService, getStoreProducts } from "../services/productService.js";
 import { successResponse } from "../utils/response.js";
 import { reviewResponseFormat } from "../utils/reviewResponseFormat.js";
 
@@ -10,30 +10,33 @@ export async function getProducts(req, res, next) {
 
     const storeProducts = await getStoreProducts(storeId);
 
-    const completeProducts = storeProducts.map(async ( product ) => {
-
-      const productReviews = await getProductReviews(product.id,"rating");
-
-      const productRating = productReviews.length
-        ? Number(
-            (
-              productReviews.reduce((acc, r) => acc + r.rating, 0) /
-              productReviews.length
-            ).toFixed(1)
-          )
-        : 0;
-
-      return {
-        id: product.id,
-        product_img: product.product_img,
-        product_name: product.product_name,
-        product_url: product.product_url,
-        rating: productRating,
-        reviews: {
-          total: productReviews.length,
-        }
-      }
-    })
+    const completeProducts = await Promise.all(
+      storeProducts.map(async (product) => {
+    
+        const productReviews = await getProductReviews(product.id, "rating");
+    
+        const productRating = productReviews.length
+          ? Number(
+              (
+                productReviews.reduce((acc, r) => acc + r.rating, 0) /
+                productReviews.length
+              ).toFixed(1)
+            )
+          : 0;
+    
+        return {
+          id: product.id,
+          product_img: product.product_img,
+          product_name: product.product_name,
+          product_url: product.product_url,
+          rating: productRating,
+          reviews: {
+            total: productReviews.length,
+          }
+        };
+    
+      })
+    );
 
     successResponse({
       status: 200,
@@ -61,7 +64,7 @@ export async function getProduct(req, res, next) {
 
     const { productId } = req.params;
 
-    const product = await getProduct(productId);
+    const product = await getProductService(productId);
 
     const productReviews = await getProductReviews(productId);
 

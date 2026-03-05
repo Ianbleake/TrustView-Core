@@ -42,7 +42,7 @@ export async function getStoreProducts( store_id, fields ) {
   return data;
 }
 
-export async function getProduct( product_id, fields ) {
+export async function getProductService( product_id, fields ) {
 
   const fieldsSelected = fields ? fields : "*";
 
