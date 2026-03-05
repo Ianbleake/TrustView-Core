@@ -38,7 +38,7 @@ export async function getProducts(req, res, next) {
       })
     );
 
-    successResponse({
+    successResponse(res,{
       status: 200,
       data: completeProducts,
     })
@@ -138,7 +138,7 @@ export async function getProduct(req, res, next) {
       }
     };
 
-    successResponse({
+    successResponse(res,{
       status: 200,
       data: completeProduct,
     })
