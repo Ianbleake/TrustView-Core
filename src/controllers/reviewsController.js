@@ -54,7 +54,7 @@ export async function createReview(req, res, next) {
       store_external_id: appReview.tienda_nube_user_id,
       product_name: appReview.product_name,
       product_external_id: appReview.product_external_id,
-      product_img: null,
+      product_img: appReview.image_url,
       product_url: appReview.product_url,
     })
 
@@ -77,7 +77,7 @@ export async function createReview(req, res, next) {
       status: 201,
       data: formattedReview,
     });
-    
+
   } catch (error) {
     next(error);
   }
