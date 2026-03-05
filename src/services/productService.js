@@ -33,7 +33,7 @@ export async function getStoreProducts( store_id, fields ) {
   const fieldsSelected = fields ? fields : "*";
 
   const { data, error } = await supabase
-    .from("prodcts")
+    .from("products")
     .select(fieldsSelected)
     .eq("store_id",store_id);
 
